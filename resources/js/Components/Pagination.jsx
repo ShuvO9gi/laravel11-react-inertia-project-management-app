@@ -6,6 +6,7 @@ export default function Pagination({ links }) {
       {links.map((link) => (
         // <Link>{link.label}</Link>
         <Link
+          preserveScroll
           href={link.url || ""}
           key={link.label}
           className={
