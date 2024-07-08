@@ -62,6 +62,7 @@ export default function Index({ auth, projects, queryparams = null }) {
                     <th className="px-3 py-3">
                       <TextInput
                         className="w-full"
+                        defaultvalue={queryparams.name}
                         placeholder="Project Name"
                         onBlur={(e) =>
                           searchFieldChanged("name", e.target.value)
@@ -72,6 +73,7 @@ export default function Index({ auth, projects, queryparams = null }) {
                     <th className="px-3 py-3">
                       <SelectInput
                         className="w-full"
+                        defaultvalue={queryparams.name}
                         onChange={(e) =>
                           searchFieldChanged("status", e.target.value)
                         }
