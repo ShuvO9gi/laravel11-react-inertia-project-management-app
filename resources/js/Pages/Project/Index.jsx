@@ -8,20 +8,21 @@ import {
 } from "@/constants.jsx";
 import { Head, Link, router } from "@inertiajs/react";
 
-export default function Index({ auth, projects, queryparams = null }) {
-  queryparams = queryparams || {};
+export default function Index({ auth, projects, queryParams = null }) {
+  queryParams = queryParams || {};
   const searchFieldChanged = (name, value) => {
     if (value) {
-      queryparams[name] = value;
+      queryParams[name] = value;
     } else {
-      delete queryparams[name];
+      delete queryParams[name];
     }
 
-    router.get(route("project.index"), queryparams);
+    router.get(route("project.index"), queryParams);
   };
 
   const onKeyPress = (name, e) => {
     if (e.key !== "Enter") return;
+
     searchFieldChanged(name, e.target.value);
   };
 
@@ -62,7 +63,7 @@ export default function Index({ auth, projects, queryparams = null }) {
                     <th className="px-3 py-3">
                       <TextInput
                         className="w-full"
-                        defaultvalue={queryparams.name}
+                        defaultValue={queryParams.name}
                         placeholder="Project Name"
                         onBlur={(e) =>
                           searchFieldChanged("name", e.target.value)
@@ -73,7 +74,7 @@ export default function Index({ auth, projects, queryparams = null }) {
                     <th className="px-3 py-3">
                       <SelectInput
                         className="w-full"
-                        defaultvalue={queryparams.name}
+                        defaultValue={queryParams.status}
                         onChange={(e) =>
                           searchFieldChanged("status", e.target.value)
                         }
