@@ -184,7 +184,11 @@ export default function Index({ auth, projects, queryParams = null }) {
                             alt=""
                           />
                         </td>
-                        <td className="px-3 py-2">{project.name}</td>
+                        <td className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
+                          <Link href={route("project.show", project.id)}>
+                            {project.name}
+                          </Link>
+                        </td>
                         <td className="px-3 py-2 text-nowrap">
                           <span
                             className={
