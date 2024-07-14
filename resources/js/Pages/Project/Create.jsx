@@ -4,7 +4,6 @@ import SelectInput from "@/Components/SelectInput";
 import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Description } from "@headlessui/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Create({ auth }) {
