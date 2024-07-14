@@ -1,10 +1,11 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import SelectInput from "@/Components/SelectInput";
 import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Description } from "@headlessui/react";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function Create({ auth }) {
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -18,7 +19,7 @@ export default function Create({ auth }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    post(route("project.create"));
+    post(route("project.store"));
   };
   return (
     <AuthenticatedLayout
@@ -71,7 +72,7 @@ export default function Create({ auth }) {
               <div className="mt-4">
                 <InputLabel
                   htmlFor="project_description"
-                  value="Project Name"
+                  value="Project Description"
                 />
                 <TextAreaInput
                   id="project_description"
@@ -81,6 +82,48 @@ export default function Create({ auth }) {
                   onChange={(e) => setData("description", e.target.value)}
                 />
                 <InputError message={errors.description} className="mt-2" />
+              </div>
+              <div className="mt-4">
+                <InputLabel
+                  htmlFor="project_due_date"
+                  value="Project Deadline"
+                />
+                <TextInput
+                  id="project_due_date"
+                  type="date"
+                  name="due_date"
+                  value={data.due_date}
+                  className="mt-1 block w-full"
+                  isFocused={true}
+                  onChange={(e) => setData("due_date", e.target.value)}
+                />
+                <InputError message={errors.due_date} className="mt-2" />
+              </div>
+              <div className="mt-4">
+                <InputLabel htmlFor="project_status" value="Project Status" />
+                <SelectInput
+                  id="project_status"
+                  name="status"
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("status", e.target.value)}
+                >
+                  <option value="">Select Status</option>
+                  <option value="pending">Pending</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                </SelectInput>
+                <InputError message={errors.status} className="mt-2" />
+              </div>
+              <div className="mt-4 text-right">
+                <Link
+                  href={route("project.index")}
+                  className="bg-gray-100 py-1 px-3 text-gray-800 rounded shadow transition-all hover:bg-gray-200 mr-2"
+                >
+                  Cancel
+                </Link>
+                <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
+                  Submit
+                </button>
               </div>
             </form>
           </div>
