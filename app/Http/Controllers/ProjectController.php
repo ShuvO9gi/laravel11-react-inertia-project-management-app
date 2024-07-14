@@ -97,7 +97,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return inertia("Project/Edit", [
+            "project" => new ProjectResource($project),
+        ]);
     }
 
     /**
@@ -113,8 +115,19 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        // Get all methods
+        // $methods = get_class_methods($project);
+        // dd($methods);
+
+        // Get all properties
+        // $properties = get_object_vars($project);
+        // dd($properties);
+    
+        // dd($project);
+        
+        $name = $project->name;
         $project->delete();
 
-        return to_route("project.index")->with("success", "Project was deleted successfully!");
+        return to_route("project.index")->with("success", "Project \"$name\" was deleted successfully!");
     }
 }
