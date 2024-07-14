@@ -14,12 +14,13 @@ export default function Edit({ auth, project }) {
     status: project.status || "",
     description: project.description || "",
     due_date: project.due_date || "",
+    _method: "PUT",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    post(route("project.store"));
+    post(route("project.update", project.id));
   };
   return (
     <AuthenticatedLayout
