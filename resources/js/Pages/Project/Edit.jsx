@@ -4,16 +4,16 @@ import SelectInput from "@/Components/SelectInput";
 import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Description } from "@headlessui/react";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth }) {
+export default function Edit({ auth, project }) {
+  console.log(project);
   const { data, setData, post, processing, errors, reset } = useForm({
     image: "",
-    name: "",
-    status: "",
-    description: "",
-    due_date: "",
+    name: project.name || "",
+    status: project.status || "",
+    description: project.description || "",
+    due_date: project.due_date || "",
   });
 
   const onSubmit = (e) => {
@@ -27,7 +27,7 @@ export default function Create({ auth }) {
       header={
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Create New Project
+            Edit Project "{project.name}"
           </h2>
         </div>
       }
@@ -41,6 +41,11 @@ export default function Create({ auth }) {
               onSubmit={onSubmit}
               className="p-4 sm:p-8 dark:bg-gray-800 shadow sm:rounded-lg"
             >
+              {project.image_path && (
+                <div className="mb-4">
+                  <img src={project.image_path} className="w-64" />
+                </div>
+              )}
               <div>
                 <InputLabel
                   htmlFor="project_image_path"
