@@ -121,7 +121,6 @@ export default function TasksTable({
               </TableHeading>
               <th className="px-3 py-3">Created By</th>
               <th className="px-3 py-3">Actions</th>
-              <th className="px-3 py-3"></th>
             </tr>
           </thead>
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
@@ -150,7 +149,6 @@ export default function TasksTable({
                   <option value="completed">Completed</option>
                 </SelectInput>
               </th>
-              <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
               <th className="px-3 py-3"></th>
