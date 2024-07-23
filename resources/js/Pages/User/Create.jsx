@@ -89,7 +89,6 @@ export default function Create({ auth }) {
                   name="password_confirmation"
                   value={data.password_confirmation}
                   className="mt-1 block w-full"
-                  isFocused={true}
                   onChange={(e) =>
                     setData("password_confirmation", e.target.value)
                   }
