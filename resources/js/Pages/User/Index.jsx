@@ -131,7 +131,7 @@ export default function Index({ auth, users, success, queryParams = null }) {
                       <th className="px-3 py-3">
                         <TextInput
                           className="w-full"
-                          defaultValue={queryParams.name}
+                          defaultValue={queryParams.email}
                           placeholder="User Email"
                           onBlur={(e) =>
                             searchFieldChanged("email", e.target.value)
