@@ -73,7 +73,6 @@ export default function Create({ auth }) {
                   name="password"
                   value={data.password}
                   className="mt-1 block w-full"
-                  isFocused={true}
                   onChange={(e) => setData("password", e.target.value)}
                 />
                 <InputError message={errors.password} className="mt-2" />
