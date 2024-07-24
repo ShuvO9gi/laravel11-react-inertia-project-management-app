@@ -3,8 +3,26 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
+import { useEffect, useState } from "react";
 
 export default function Index({ auth, users, success, queryParams = null }) {
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (success) {
+      setShowSuccess(true);
+
+      const timer = setTimeout(() => {
+        const flashMessage = document.getElementById("flash-message");
+        if (flashMessage) {
+          setTimeout(() => setShowSuccess(false), 500);
+        }
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
   queryParams = queryParams || {};
   const searchFieldChanged = (name, value) => {
     console.log(queryParams);
@@ -67,10 +85,27 @@ export default function Index({ auth, users, success, queryParams = null }) {
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          {success && (
-            <div className="bg-emerald-500 py-2 px-4 text-white rounded mb-4">
-              {success}
-            </div>
+          {success && showSuccess && (
+            <>
+              <div
+                id="flash-message"
+                className="bg-emerald-500 py-2 px-4 text-white rounded mb-4 transition-opacity duration-500"
+                style={{ opacity }}
+              >
+                {success}
+              </div>
+              {/* <script>
+                document.addEventListener("DOMContentLoaded", function()
+                {setTimeout(function () {
+                  var flashMessage = document.getElementById("flash-message");
+                  if (flashMessage) {
+                    flashMessage.style.display = "none";
+                    console.log("removed");
+                  }
+                }, 5000)}
+                );
+              </script> */}
+            </>
           )}
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
