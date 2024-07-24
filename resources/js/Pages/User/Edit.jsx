@@ -42,8 +42,8 @@ export default function Edit({ auth, user }) {
               className="p-4 sm:p-8 dark:bg-gray-800 shadow sm:rounded-lg"
             >
               <div className="mt-4">
-                <pre>{JSON.stringify(data)}</pre>
-                <pre>{JSON.stringify(user, undefined, 2)}</pre>
+                {/* <pre>{JSON.stringify(data)}</pre>
+                <pre>{JSON.stringify(user, undefined, 2)}</pre> */}
                 <InputLabel htmlFor="user_name" value="User Name" />
                 <TextInput
                   id="user_name"
