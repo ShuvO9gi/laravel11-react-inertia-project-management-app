@@ -25,7 +25,7 @@ class UpdateUserRequest extends FormRequest
         return [
             "name" => ["required", "string", "max:255"],
             "email" => ["required", "string", "unique:users, email"],
-            "password" => ["required", "confirmed", Password::min(8)->letters()->mixedCase()->symbols()->numbers()]
+            "password" => ["nullable", "confirmed", Password::min(8)->letters()->mixedCase()->symbols()->numbers()]
         ];
     }
 }
