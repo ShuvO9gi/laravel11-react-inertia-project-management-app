@@ -82,14 +82,13 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
-        dd($data);
+        // dd($data);
         $password = $data["password"] ?? null;
         if($password) {
             $data["password"] = bcrypt($password);
-        } 
-        // else {
-        //     unset($data["password"]);
-        // }
+        } else {
+            unset($data["password"]);
+        }
 
         $user->update($data);
 
