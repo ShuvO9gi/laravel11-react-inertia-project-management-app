@@ -86,7 +86,10 @@ class UserController extends Controller
         $password = $data["password"] ?? null;
         if($password) {
             $data["password"] = bcrypt($password);
-        }
+        } 
+        // else {
+        //     unset($data["password"]);
+        // }
 
         $user->update($data);
 
