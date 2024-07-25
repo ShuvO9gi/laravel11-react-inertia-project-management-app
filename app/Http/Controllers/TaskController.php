@@ -6,6 +6,8 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -48,7 +50,17 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $data = $request->validated();
+        /** @var $image Illuminate\Http\UploadedFile */
+        $image = $data["image"] ?? null;
+        $data["created_by"] = Auth::id();
+        $data["updated_by"] = Auth::id();
+        // dd($data); //to see available data like console
+        if($image) {
+            $data["image_path"] = $image->store("project/".Str::random(), "public");
+        }
+        Task::create($data);
+        return to_route("project.index")->with("success", "Project was created successfully!");
     }
 
     /**
