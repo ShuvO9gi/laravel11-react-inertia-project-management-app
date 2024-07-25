@@ -13,10 +13,7 @@ export default function Index({ auth, users, success, queryParams = null }) {
       setShowSuccess(true);
 
       const timer = setTimeout(() => {
-        const flashMessage = document.getElementById("flash-message");
-        if (flashMessage) {
-          setTimeout(() => setShowSuccess(false), 500);
-        }
+        setShowSuccess(false);
       }, 5000);
 
       return () => clearTimeout(timer);
@@ -85,12 +82,13 @@ export default function Index({ auth, users, success, queryParams = null }) {
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          {success && showSuccess && (
+          {success && (
             <>
               <div
                 id="flash-message"
-                className="bg-emerald-500 py-2 px-4 text-white rounded mb-4 transition-opacity duration-500"
-                style={{ opacity }}
+                className={`bg-emerald-500 py-2 px-4 text-white rounded mb-4 transition-[opacity] ease-in-out duration-1000 ${
+                  showSuccess ? "opacity-100" : "opacity-0"
+                }`}
               >
                 {success}
               </div>
@@ -107,6 +105,7 @@ export default function Index({ auth, users, success, queryParams = null }) {
               </script> */}
             </>
           )}
+
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               {/* <pre>{JSON.stringify(users, undefined, 2)}</pre> */}
