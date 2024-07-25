@@ -77,7 +77,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return inertia("Task/Edit", [
+            "task" => new TaskResource($task),
+        ]);
     }
 
     /**
