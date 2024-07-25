@@ -55,7 +55,7 @@ class TaskController extends Controller
         $image = $data["image"] ?? null;
         $data["created_by"] = Auth::id();
         $data["updated_by"] = Auth::id();
-        // dd($data); //to see available data like console
+        // dd($data);
         if($image) {
             $data["image_path"] = $image->store("project/".Str::random(), "public");
         }
