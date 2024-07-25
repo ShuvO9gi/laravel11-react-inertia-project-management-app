@@ -52,6 +52,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         $data = $request->validated();
+        //dd($data);
         /** @var $image Illuminate\Http\UploadedFile */
         $image = $data["image"] ?? null;
         $data["created_by"] = Auth::id();
@@ -61,7 +62,7 @@ class TaskController extends Controller
             $data["image_path"] = $image->store("project/".Str::random(), "public");
         }
         Task::create($data);
-        return to_route("project.index")->with("success", "Project was created successfully!");
+        return to_route("task.index")->with("success", "Task was created successfully!");
     }
 
     /**
@@ -69,7 +70,26 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        $query = $task->tasks();
+
+        $sortField = request("sort_field", "created_at");
+        $sortDirection = request("sort_direction", "desc");
+
+        if (request("name")) {
+            $query->where("name", "like", "%" . request("name") . "%");
+        }
+        
+        if (request("status")) {
+            $query->where("status", request("status"));
+        }
+        
+        $tasks = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
+
+        return inertia("Task/Show", [
+            "task" => new TaskResource($task),
+            "tasks" => TaskResource::collection($tasks),
+            "queryParams" => request()->query() ?: null,
+        ]);
     }
 
     /**
