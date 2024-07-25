@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class TaskController extends Controller
@@ -92,6 +93,14 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $name = $task->name;
+        
+        $task->delete();
+
+        if($task->image_path) {
+            Storage::disk("public")->deleteDirectory(dirname($task->image_path));
+        }
+
+        return to_route("project.index")->with("success", "Project \"$name\" was deleted successfully!");
     }
 }
