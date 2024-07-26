@@ -44,6 +44,14 @@ export default function TasksTable({
 
     router.get(route("task.index", queryParams));
   };
+
+  const deleteTask = (task) => {
+    if (!window.confirm("Are you sure want to delete task?")) {
+      return;
+    }
+
+    router.delete(route("task.destroy", task.id));
+  };
   return (
     <div>
       <div className="overflow-auto">
@@ -168,7 +176,9 @@ export default function TasksTable({
                 {!hideProjectColumn && (
                   <td className="px-3 py-2">{task.project.name}</td>
                 )}
-                <td className="px-3 py-2">{task.name}</td>
+                <td className="px-3 py-2 text-gray-100 hover:underline">
+                  <Link href={route("task.show", task.id)}>{task.name}</Link>
+                </td>
                 <td className="px-3 py-2 text-nowrap">
                   <span
                     className={
@@ -182,19 +192,19 @@ export default function TasksTable({
                 <td className="px-3 py-2 text-nowrap">{task.created_at}</td>
                 <td className="px-3 py-2 text-nowrap">{task.due_date}</td>
                 <td className="px-3 py-2">{task.createdBy.name}</td>
-                <td className="px-3 py-2">
+                <td className="px-3 py-2 text-nowrap">
                   <Link
                     href={route("task.edit", task.id)}
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                   >
                     Edit
                   </Link>
-                  <Link
-                    href={route("task.destroy", task.id)}
+                  <button
+                    onClick={(e) => deleteTask(task)}
                     className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
                   >
                     Delete
-                  </Link>
+                  </button>
                 </td>
               </tr>
             ))}
