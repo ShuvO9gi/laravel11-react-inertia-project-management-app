@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Resources\ProjectResource;
 use App\Http\Resources\TaskResource;
+use App\Http\Resources\UserResource;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -43,7 +47,13 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return inertia("Task/Create");
+        $project = Project::all();
+        $user = User::all();
+
+        return inertia("Task/Create", [
+            "projects" => ProjectResource::collection($project),
+            "users" => UserResource::collection($user),
+        ]);
     }
 
     /**
