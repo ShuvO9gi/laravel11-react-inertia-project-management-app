@@ -6,7 +6,9 @@ import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Create({ auth }) {
+export default function Create({ auth, projects, users }) {
+  console.log(projects);
+  console.log(users);
   const { data, setData, post, processing, errors, reset } = useForm({
     image: "",
     name: "",
@@ -32,7 +34,7 @@ export default function Create({ auth }) {
       }
     >
       <Head title="Tasks" />
-
+      {/* <pre>{JSON.stringify(projects, undefined, 2)}</pre> */}
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -41,6 +43,23 @@ export default function Create({ auth }) {
               className="p-4 sm:p-8 dark:bg-gray-800 shadow sm:rounded-lg"
             >
               <div>
+                <InputLabel htmlFor="task_project_id" value="Project" />
+                <SelectInput
+                  id="task_project_id"
+                  name="project_id"
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("project_id", e.target.value)}
+                >
+                  <option value="">Select Project</option>
+                  {projects.data.map((project) => (
+                    <option value={project.id} key={project.id}>
+                      {project.name}
+                    </option>
+                  ))}
+                </SelectInput>
+                <InputError message={errors.project_id} className="mt-2" />
+              </div>
+              <div className="mt-4">
                 <InputLabel htmlFor="task_image_path" value="Task Image" />
                 <TextInput
                   id="task_image_path"
@@ -120,6 +139,29 @@ export default function Create({ auth }) {
                   <option value="high">High</option>
                 </SelectInput>
                 <InputError message={errors.priority} className="mt-2" />
+              </div>
+              <div className="mt-4">
+                <InputLabel
+                  htmlFor="task_assigned_user"
+                  value="Assigned User"
+                />
+                <SelectInput
+                  id="task_assigned_user"
+                  name="assigned_user_id"
+                  className="mt-1 block w-full"
+                  onChange={(e) => setData("assigned_user_id", e.target.value)}
+                >
+                  <option value="">Select User</option>
+                  {users.data.map((user) => (
+                    <option value={user.id} key={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </SelectInput>
+                <InputError
+                  message={errors.assigned_user_id}
+                  className="mt-2"
+                />
               </div>
               <div className="mt-4 text-right">
                 <Link
