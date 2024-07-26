@@ -38,7 +38,8 @@ class TaskController extends Controller
 
         return inertia("Task/Index", [
             "tasks" => TaskResource::collection($tasks),
-            "queryParams" => request()->query() ?: null
+            "queryParams" => request()->query() ?: null,
+            "success" => session("success"),
         ]);
     }
 
@@ -47,8 +48,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $project = Project::all();
-        $user = User::all();
+        // $project = Project::all();
+        $project = Project::query()->orderBy("name", "asc")->get();
+        // $user = User::all();
+        $user = User::query()->orderBy("name", "asc")->get();
 
         return inertia("Task/Create", [
             "projects" => ProjectResource::collection($project),
@@ -80,25 +83,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        $query = $task->tasks();
-
-        $sortField = request("sort_field", "created_at");
-        $sortDirection = request("sort_direction", "desc");
-
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
-        
-        if (request("status")) {
-            $query->where("status", request("status"));
-        }
-        
-        $tasks = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
-
         return inertia("Task/Show", [
             "task" => new TaskResource($task),
-            "tasks" => TaskResource::collection($tasks),
-            "queryParams" => request()->query() ?: null,
         ]);
     }
 
@@ -107,8 +93,12 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+        $project = Project::query()->orderBy("name", "asc")->get();
+        $user = User::query()->orderBy("name", "asc")->get();
         return inertia("Task/Edit", [
             "task" => new TaskResource($task),
+            "projects" => ProjectResource::collection($project),
+            "users" => UserResource::collection($user),
         ]);
     }
 
@@ -148,6 +138,6 @@ class TaskController extends Controller
             Storage::disk("public")->deleteDirectory(dirname($task->image_path));
         }
 
-        return to_route("project.index")->with("success", "Project \"$name\" was deleted successfully!");
+        return to_route("task.index")->with("success", "Task \"$name\" was deleted successfully!");
     }
 }
