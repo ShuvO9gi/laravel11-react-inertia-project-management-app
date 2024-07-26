@@ -1,8 +1,18 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import TasksTable from "./TasksTable";
+import { useEffect, useState } from "react";
 
-export default function Index({ auth, tasks, queryParams = null }) {
+export default function Index({ auth, tasks, success, queryParams = null }) {
+  const [showSuccess, setShowSuccess] = useState(false);
+  useEffect(() => {
+    if (success) {
+      setShowSuccess(true);
+      const timer = setTimeout(() => setShowSuccess(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -24,6 +34,16 @@ export default function Index({ auth, tasks, queryParams = null }) {
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          {success && (
+            <div
+              id="flash-message"
+              className={`bg-emerald-500 py-2 px-4 text-white rounded mb-4 transition-[opacity] ease-in-out duration-1000 ${
+                showSuccess ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {success}
+            </div>
+          )}
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               {/* <pre>{JSON.stringify(tasks, undefined, 2)}</pre> */}
