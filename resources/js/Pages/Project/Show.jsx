@@ -6,7 +6,13 @@ import {
 } from "@/constants.jsx";
 import TasksTable from "../Task/TasksTable";
 
-export default function Show({ auth, project, tasks, queryParams = null }) {
+export default function Show({
+  auth,
+  project,
+  tasks,
+  success,
+  queryParams = null,
+}) {
   console.log("project", project);
   console.log("tasks", tasks);
   console.log("queryParams", queryParams);
@@ -91,6 +97,7 @@ export default function Show({ auth, project, tasks, queryParams = null }) {
               {tasks.data.length ? (
                 <TasksTable
                   tasks={tasks}
+                  success={success}
                   queryParams={queryParams}
                   hideProjectColumn={true}
                 />
