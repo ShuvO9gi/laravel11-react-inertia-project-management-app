@@ -36,10 +36,15 @@ class TaskController extends Controller
         
         $tasks = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
 
+        //clearing 'success' message session
+        $success = session("success");
+        session()->forget("success");
+
         return inertia("Task/Index", [
             "tasks" => TaskResource::collection($tasks),
             "queryParams" => request()->query() ?: null,
-            "success" => session("success"),
+            // "success" => session()->pull("success"),
+            "success" => $success,
         ]);
     }
 
@@ -140,4 +145,33 @@ class TaskController extends Controller
 
         return to_route("task.index")->with("success", "Task \"$name\" was deleted successfully!");
     }
+
+    /**
+     * filter own task.
+     */
+    public function myTask() {
+        $user = auth()->user();
+        //dd($user);
+        $query = Task::query()->where("assigned_user_id", $user->id);
+
+        $sortField = request("sort_field", "created_at");
+        $sortDirection = request("sort_direction", "desc");
+
+        if(request("name")) {
+            $query->where("name", "like", "%" . request("name") . "%");
+        }
+
+        if(request("status")) {
+            $query->where("status", request("status"));
+        }
+
+        $task = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
+
+        return inertia("Task/Index", [
+            "tasks" => TaskResource::collection($task),
+            "queryParams" => request()->query() ?: null,
+            "success" => session("success")
+        ]);
+    }
+
 }
