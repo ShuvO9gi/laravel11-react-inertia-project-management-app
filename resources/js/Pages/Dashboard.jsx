@@ -58,7 +58,7 @@ export default function Dashboard({
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <h3 className="text-gray-200 text-xl">My Active Tasks</h3>
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <table className="mt-3 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                   <tr className="text-nowrap">
                     <th className="px-3 py-3">ID</th>
@@ -80,7 +80,11 @@ export default function Dashboard({
                           {task.project.name}
                         </Link>
                       </td>
-                      <td className="px-3 py-2">{task.name}</td>
+                      <td className="px-3 py-2 text-white hover:underline">
+                        <Link href={route("task.show", task.id)}>
+                          {task.name}
+                        </Link>
+                      </td>
                       <td className="px-3 py-2 text-nowrap">
                         <span
                           className={
@@ -97,6 +101,15 @@ export default function Dashboard({
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4 flex justify-end bottom-0">
+        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+          <div className="p-6 text-gray-900 dark:text-gray-100 text-xs">
+            <Link href="https://www.youtube.com/watch?v=VrQRa-afCAk&list=PPSV">
+              Source of Project Youtube Link
+            </Link>
           </div>
         </div>
       </div>
