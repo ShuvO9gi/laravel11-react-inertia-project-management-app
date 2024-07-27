@@ -5,11 +5,12 @@ import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function Edit({ auth, task, projects, users }) {
   console.log(task);
   const { data, setData, post, processing, errors, reset } = useForm({
-    image: task.image_path | "",
+    image: "",
     name: task.name || "",
     status: task.status || "",
     description: task.description || "",
@@ -19,6 +20,18 @@ export default function Edit({ auth, task, projects, users }) {
     priority: task.priority || "",
     _method: "PUT",
   });
+
+  const [fileName, setFileName] = useState(
+    task.image_path ? task.image_path.split("/").pop() : ""
+  );
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setData("image", file);
+      setFileName(file.name);
+    }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -75,8 +88,11 @@ export default function Edit({ auth, task, projects, users }) {
                   type="file"
                   name="image"
                   className="mt-1 block w-full"
-                  onChange={(e) => setData("image", e.target.files[0])}
+                  onChange={handleFileChange}
                 />
+                {fileName && (
+                  <p className="mt-2 text-white">Selected file: {fileName}</p>
+                )}
                 <InputError message={errors.image} className="mt-2" />
               </div>
               <div className="mt-4">
