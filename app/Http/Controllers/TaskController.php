@@ -37,14 +37,14 @@ class TaskController extends Controller
         $tasks = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
 
         //clearing 'success' message session
-        $success = session("success");
-        session()->forget("success");
+        // $success = session("success");
+        // session()->forget("success");
 
         return inertia("Task/Index", [
             "tasks" => TaskResource::collection($tasks),
             "queryParams" => request()->query() ?: null,
-            // "success" => session()->pull("success"),
-            "success" => $success,
+            "success" => session()->pull("success"),
+            // "success" => $success,
         ]);
     }
 
