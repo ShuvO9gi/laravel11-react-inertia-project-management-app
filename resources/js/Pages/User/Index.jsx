@@ -184,9 +184,7 @@ export default function Index({ auth, users, success, queryParams = null }) {
                         key={user.id}
                       >
                         <td className="px-3 py-2">{user.id}</td>
-                        <td className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
-                          {user.name}
-                        </td>
+                        <td className="px-3 py-2 text-gray-100">{user.name}</td>
                         <td className="px-3 py-2 text-nowrap">{user.email}</td>
                         <td className="px-3 py-2 text-nowrap">
                           {user.created_at}
