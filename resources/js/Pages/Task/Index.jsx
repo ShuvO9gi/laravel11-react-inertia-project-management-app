@@ -5,10 +5,33 @@ import { useEffect, useState } from "react";
 
 export default function Index({ auth, tasks, success, queryParams = null }) {
   const [showSuccess, setShowSuccess] = useState(false);
+
+  // useEffect(() => {
+  //   if (success) {
+  //     setShowSuccess(true);
+  //     const timer = setTimeout(() => setShowSuccess(false), 5000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [success]);
+
   useEffect(() => {
-    if (success) {
+    const storedSuccess = sessionStorage.getItem("success");
+
+    if (success && !storedSuccess) {
       setShowSuccess(true);
+      sessionStorage.setItem("success", "true"); // Set flag to indicate message has been shown
+
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+        sessionStorage.removeItem("success"); // Remove flag after hiding the message
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    } else if (storedSuccess) {
+      setShowSuccess(true);
+      sessionStorage.removeItem("success"); // Clear the success message from sessionStorage
       const timer = setTimeout(() => setShowSuccess(false), 5000);
+
       return () => clearTimeout(timer);
     }
   }, [success]);
@@ -34,7 +57,17 @@ export default function Index({ auth, tasks, success, queryParams = null }) {
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          {success && (
+          {/* {success && (
+            <div
+              id="flash-message"
+              className={`bg-emerald-500 py-2 px-4 text-white rounded mb-4 transition-[opacity] ease-in-out duration-1000 ${
+                showSuccess ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {success}
+            </div>
+          )} */}
+          {showSuccess && (
             <div
               id="flash-message"
               className={`bg-emerald-500 py-2 px-4 text-white rounded mb-4 transition-[opacity] ease-in-out duration-1000 ${
