@@ -40,11 +40,14 @@ class TaskController extends Controller
         // $success = session("success");
         // session()->forget("success");
 
+        $success = session()->pull('success');
+
         return inertia("Task/Index", [
             "tasks" => TaskResource::collection($tasks),
             "queryParams" => request()->query() ?: null,
-            "success" => session()->pull("success"),
-            // "success" => $success,
+            // "success" => session("success")
+            // "success" => session()->pull("success"),
+            "success" => $success,
         ]);
     }
 
