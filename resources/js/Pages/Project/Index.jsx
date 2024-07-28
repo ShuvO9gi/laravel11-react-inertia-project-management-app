@@ -10,6 +10,8 @@ import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
 export default function Index({ auth, projects, success, queryParams = null }) {
+  console.log("Projects", projects);
+
   queryParams = queryParams || {};
   const searchFieldChanged = (name, value) => {
     console.log(queryParams);
