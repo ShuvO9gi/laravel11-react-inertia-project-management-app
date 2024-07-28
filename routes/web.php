@@ -6,6 +6,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,7 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('project', ProjectController::class);
     Route::get('task/my-tasks', [TaskController::class, 'myTask'])->name('task.myTasks');
-    Route::resource('task', TaskController::class);
+    Route::resource('task', TaskController::class)->missing(function (Request $request) {
+        return Redirect::route('task.index')->with("success", "Route Not Found!");
+    });;
     Route::resource('user', UserController::class);
 });
 
