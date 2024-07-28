@@ -6,6 +6,7 @@ import TableHeading from "@/Components/TableHeading";
 import { useEffect, useState } from "react";
 
 export default function Index({ auth, users, success, queryParams = null }) {
+  console.log("Users", users);
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
