@@ -4,6 +4,7 @@ import TasksTable from "./TasksTable";
 import { useEffect, useState } from "react";
 
 export default function Index({ auth, tasks, success, queryParams = null }) {
+  // console.log(success);
   const [showSuccess, setShowSuccess] = useState(false);
 
   // useEffect(() => {
@@ -14,25 +15,63 @@ export default function Index({ auth, tasks, success, queryParams = null }) {
   //   }
   // }, [success]);
 
-  useEffect(() => {
-    const storedSuccess = sessionStorage.getItem("success");
+  // useEffect(() => {
+  //   const storedSuccess = sessionStorage.getItem("success");
+  //   console.log(storedSuccess);
 
-    if (success && !storedSuccess) {
+  //   if (success && !storedSuccess) {
+  //     setShowSuccess(true);
+  //     sessionStorage.setItem("success", success); // Set flag to indicate message has been shown
+  //     console.log("session", sessionStorage.getItem("success"));
+  //     const timer = setTimeout(() => {
+  //       setShowSuccess(false);
+  //       sessionStorage.removeItem(success); // Remove flag after hiding the message
+  //       console.log(
+  //         "session removed",
+  //         sessionStorage.getItem("success", success)
+  //       );
+  //     }, 5000);
+
+  //     return () => clearTimeout(timer);
+  //   } else if (storedSuccess) {
+  //     console.log("stored", storedSuccess);
+  //     setShowSuccess(true);
+  //     const timer = setTimeout(() => {
+  //       setShowSuccess(false);
+  //       sessionStorage.removeItem("success");
+  //     }, 5000);
+
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [success]);
+
+  const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    if (success) {
+      localStorage.setItem("success", success);
+      setSuccessMessage(success);
       setShowSuccess(true);
-      sessionStorage.setItem("success", "true"); // Set flag to indicate message has been shown
 
       const timer = setTimeout(() => {
         setShowSuccess(false);
-        sessionStorage.removeItem("success"); // Remove flag after hiding the message
+        localStorage.removeItem("success");
       }, 5000);
 
       return () => clearTimeout(timer);
-    } else if (storedSuccess) {
-      setShowSuccess(true);
-      sessionStorage.removeItem("success"); // Clear the success message from sessionStorage
-      const timer = setTimeout(() => setShowSuccess(false), 5000);
+    } else {
+      const storedSuccess = localStorage.getItem("success");
+      if (storedSuccess) {
+        setSuccessMessage(storedSuccess);
+        setShowSuccess(true);
 
-      return () => clearTimeout(timer);
+        const timer = setTimeout(() => {
+          setShowSuccess(false);
+          localStorage.removeItem("success");
+        }, 5000);
+
+        return () => clearTimeout(timer);
+      }
     }
   }, [success]);
 
@@ -70,11 +109,11 @@ export default function Index({ auth, tasks, success, queryParams = null }) {
           {showSuccess && (
             <div
               id="flash-message"
-              className={`bg-emerald-500 py-2 px-4 text-white rounded mb-4 transition-[opacity] ease-in-out duration-1000 ${
+              className={`bg-emerald-500 py-2 px-4 text-white rounded mb-4 transition-opacity ease-in-out duration-1000 ${
                 showSuccess ? "opacity-100" : "opacity-0"
               }`}
             >
-              {success}
+              {successMessage}
             </div>
           )}
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
