@@ -21,6 +21,7 @@ export default function Index({ auth, projects, success, queryParams = null }) {
       delete queryParams[name];
     }
 
+    //set queryparams for current route
     router.get(route("project.index"), queryParams);
   };
 
